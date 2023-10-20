@@ -1,9 +1,12 @@
-import 'package:confirm_dialog/confirm_dialog.dart';
-import 'package:flutter/material.dart';
-import 'package:foodpanda_ui_clone/models/response/restaurant_model.dart';
 
-import 'package:foodpanda_ui_clone/views/deitialspage/product_detials.dart';
+import 'package:flutter/material.dart';
+import 'package:foodpanda_ui_clone/data/response/status.dart';
+import 'package:foodpanda_ui_clone/models/response/restaurant_model.dart';
+import 'package:foodpanda_ui_clone/viewmodels/restaurant_viewmodel.dart';
 import 'package:foodpanda_ui_clone/views/home/widgets/insert.dart';
+import 'package:foodpanda_ui_clone/views/restaurant/reataurant.dart';
+import 'package:foodpanda_ui_clone/views/update_restaurant/update_restaurant.dart';
+import 'package:provider/provider.dart';
 
 
 class TopRestaurant extends StatefulWidget {
@@ -18,36 +21,27 @@ class TopRestaurant extends StatefulWidget {
 }
 
 class _TopRestaurantState extends State<TopRestaurant> {
-  @override
-  void initState() {
-    super.initState();
-
-  }
+  var restaurantViewModel =RestaurantViewModel();
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: (){
         Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProductDetailsPage()));
+          context,
+          MaterialPageRoute(builder: (context) => Restaurant()),
+        );
       },
-      onLongPress: () {
+      onLongPress: (){
         showModalBottomSheet(
             context: context,
             builder: (context) {
               return Column(
                 mainAxisSize: MainAxisSize.min,
-                children: [
+                children:[
                   ListTile(
-                    leading: const Icon(
-                        Icons.add_circle_outline_outlined,
-                        size: 30),
-                    title: const Text(
-                      'Insert',
-                      style: TextStyle(fontSize: 22),
-                    ),
+                    leading:  const Icon(Icons.add_circle_outline_outlined,size: 30),
+                    title:  const Text('Insert',style: TextStyle(fontSize: 20),),
                     onTap: () {
                       Navigator.push(
                           context,
@@ -57,20 +51,41 @@ class _TopRestaurantState extends State<TopRestaurant> {
                     },
                   ),
                   ListTile(
-                    leading: const Icon(
-                        Icons.remove_circle_outline_outlined,
-                        size: 30),
-                    title: const Text('Delete'),
-                    onTap: () async {
+                    leading:  const Icon(Icons.remove_circle_outline_outlined,size: 30),
+                    title: const Text('Delete',style: TextStyle(fontSize: 20)),
+                    onTap: ()async {
+                      showDialog(
+                          context: context,
+                          builder: (context) => AlertDialog(
+                            title: const Text('Are you sure to remove?'),
+                            actions: [
+                              TextButton(onPressed: (){
+                                Navigator.pop(context);
+                              }, child: const Text('No')),
+                              ChangeNotifierProvider(create: (context)=>restaurantViewModel,
+                                child: Consumer<RestaurantViewModel>(
+                                    builder: (context, viewModel, _) {
+                                      return TextButton(onPressed: (){
+                                        restaurantViewModel.deleteRestaurant(widget.restaurantData.id);
+                                      },
+                                          child:  viewModel.response.status == Status.LOADING ?
+                                          const CircularProgressIndicator() :
+                                          const Text('Yes')
+                                      );
+                                    }
+                                ),)
+                            ],
+                          ));
                     },
                   ),
                   ListTile(
-                    leading: const Icon(
-                      Icons.draw_outlined,
-                      size: 30,
-                    ),
-                    title: const Text('Update'),
+                    leading:  const Icon(Icons.draw_outlined,size: 30,),
+                    title:  const Text('Update',style: TextStyle(fontSize: 20)),
                     onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => RestaurantUpdateForm(data: widget.restaurantData,)));
                     },
                   ),
                 ],

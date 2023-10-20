@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import 'package:foodpanda_ui_clone/data/response/status.dart';
 import 'package:foodpanda_ui_clone/viewmodels/cuisine_view_model.dart';
 import 'package:foodpanda_ui_clone/viewmodels/restaurant_viewmodel.dart';
-import 'package:foodpanda_ui_clone/views/home/model/cuisines.dart';
 import 'package:foodpanda_ui_clone/views/home/widgets/banner_cusqppbar.dart';
 import 'package:foodpanda_ui_clone/views/home/widgets/cuisine.dart';
 import 'package:foodpanda_ui_clone/views/home/widgets/display_food.dart';

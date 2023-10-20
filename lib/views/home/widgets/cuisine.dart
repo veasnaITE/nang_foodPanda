@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 class Cuisines extends StatefulWidget {
   final items;
   final uri;
-const Cuisines({
+  const Cuisines({
     super.key, required this.items,
-  required this.uri
+    required this.uri
   });
 
   @override
@@ -25,7 +25,7 @@ class _CuisinesState extends State<Cuisines> {
               borderRadius: BorderRadius.circular(15),
               color: Colors.grey[100]
           ),
-         child: Image.network('https://cms.istad.co${widget.uri}'),
+          child: Image.network('https://cms.istad.co${widget.uri}'),
         ),
         Text("${widget.items?.title}",
           style: const TextStyle(

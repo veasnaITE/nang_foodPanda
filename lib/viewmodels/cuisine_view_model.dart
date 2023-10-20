@@ -11,7 +11,7 @@ class CuisineViewModel extends ChangeNotifier{
     this.response=response;
     notifyListeners();
   }
-  Future<CuisineModel?>getAllCuisines() async{
+  Future<dynamic>getAllCuisines() async{
     await _cuisineRepo.getAllCuisine()
         .then((cuisines){
           //print("respone in viewmodel: ${cuisines.data?.length}");
